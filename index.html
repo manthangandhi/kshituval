@@ -3,222 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kshitu | My Forever Valentine</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <title>For My Kshitija</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@1,500&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --gold: #d4af37;
-            --rose: #ff4d6d;
-            --cream: #fff9f8;
+            --soft-pink: #ffb6c1;
+            --dark: #0d0d0d;
         }
 
         body, html {
             margin: 0; padding: 0;
-            width: 100%; height: 100%;
-            overflow: hidden;
+            background: var(--dark);
+            color: white;
             font-family: 'Montserrat', sans-serif;
-            background: #000;
+            overflow: hidden;
+            height: 100vh;
         }
 
-        /* Initial Entry Overlay (To bypass browser audio block) */
-        #overlay {
+        /* Initial Curtain */
+        #curtain {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle, #2c0a0a 0%, #000 100%);
-            z-index: 100; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; color: var(--gold);
-            transition: 1s ease-in-out;
+            z-index: 1000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
         }
 
-        #bg-video {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: -1; opacity: 0.4;
-            background: linear-gradient(135deg, #4b0082, #000);
+        /* Floating Bokeh Background */
+        .bg-glow {
+            position: absolute; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 40%);
+            z-index: -1;
         }
 
-        .glass-card {
-            position: relative; z-index: 10;
-            width: 90%; max-width: 450px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 40px; padding: 40px;
-            text-align: center; color: white;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            display: none; /* Shown after entry */
+        .main-container {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            height: 100vh; padding: 20px;
+            perspective: 1000px;
         }
 
-        .photo-frame {
-            position: relative; width: 200px; height: 200px;
-            margin: 0 auto 20px; border-radius: 50%;
-            padding: 10px; background: var(--gold);
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+        /* Portrait Frame - Optimized for 2738 × 3651 */
+        .portrait-frame {
+            position: relative;
+            width: 280px; /* Scaled down for mobile/web but keeps aspect ratio */
+            height: 373px; 
+            border: 2px solid var(--gold);
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 20px rgba(212, 175, 55, 0.2);
+            animation: float 4s ease-in-out infinite;
         }
 
-        .photo-frame img {
-            width: 100%; height: 100%; object-fit: cover;
-            border-radius: 50%; border: 4px solid #1a0505;
+        .portrait-frame img {
+            width: 100%; height: 100%;
+            object-fit: cover; /* Centers her perfectly */
+            border-radius: 8px;
+            filter: sepia(20%) contrast(1.1);
         }
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 10px 0; color: var(--gold); }
-        
-        #reason-display {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.6rem; margin: 25px 0; color: var(--rose);
-            min-height: 80px; transition: 0.5s;
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(2deg); }
+            50% { transform: translateY(-15px) rotateX(-2deg); }
         }
 
-        .btn-premium {
-            background: var(--gold); color: black;
-            border: none; padding: 15px 35px; border-radius: 50px;
-            font-weight: bold; cursor: pointer; transition: 0.3s;
-            text-transform: uppercase; letter-spacing: 2px;
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin: 25px 0 10px;
+            text-align: center;
         }
 
-        .btn-premium:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--gold); }
+        #reason-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #ccc;
+            min-height: 50px;
+            text-align: center;
+            max-width: 300px;
+            margin-bottom: 30px;
+        }
 
-        .btn-yes { background: var(--rose); color: white; margin-top: 20px; }
+        .btn-gold {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: 0.4s;
+        }
+
+        .btn-gold:hover {
+            background: var(--gold);
+            color: black;
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        /* The Funny Interactive Section */
+        .decision-box {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .btn-yes {
+            background: #ff4d6d;
+            border: none; color: white;
+            padding: 15px 40px; border-radius: 50px;
+            font-weight: bold; cursor: pointer;
+            margin: 10px; font-size: 1.1rem;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
+        }
 
         .btn-no {
-            background: transparent; border: 1px solid rgba(255,255,255,0.3);
-            color: white; padding: 8px 20px; border-radius: 50px;
-            margin-left: 10px; cursor: pointer; transition: 0.1s;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.5);
+            padding: 10px 20px; border-radius: 50px;
+            cursor: pointer;
+            transition: 0.1s;
         }
-
-        #petal-canvas { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 5; }
     </style>
 </head>
 <body>
 
-    <div id="overlay">
-        <h2 style="font-family: 'Playfair Display'; italic">A message for Kshitu...</h2>
-        <button class="btn-premium" onclick="startApp()">Open with Love ❤️</button>
+    <div id="curtain" onclick="openCurtain()">
+        <h2 style="font-family: 'Cinzel'; color: var(--gold); letter-spacing: 5px;">EXCLUSIVE FOR KSHITU</h2>
+        <p style="font-size: 0.8rem; opacity: 0.6;">( Tap to Enter )</p>
     </div>
 
-    <canvas id="petal-canvas"></canvas>
-    <div id="bg-video"></div>
+    <div class="bg-glow"></div>
 
-    <audio id="loveAudio" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" type="audio/mpeg">
+    <audio id="music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="container" style="height: 100vh; display: flex; justify-content: center; align-items: center;">
-        <div class="glass-card" id="mainCard">
-            <div class="photo-frame">
-                <img src="/kshitija.png" alt="Kshitija">
-            </div>
-            
-            <h1>For Kshitu</h1>
-            
-            <div id="reason-display">Click to see why my heart beats for you...</div>
-            
-            <button class="btn-premium" onclick="nextReason()">Next Reason ✨</button>
+    <div class="main-container">
+        <div class="portrait-frame">
+            <img src="kshitija.png" alt="Kshitija">
+        </div>
 
-            <div style="margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-                <p>Will you be mine forever?</p>
-                <button class="btn-premium btn-yes" onclick="accepted()">YES!</button>
-                <button class="btn-no" id="no-btn" onmouseover="dodgeNo()">No</button>
-            </div>
+        <h1>To My Queen</h1>
+        
+        <div id="reason-text">"Kshitu, you are the magic in my everyday."</div>
+        
+        <button class="btn-gold" onclick="nextReason()">Give me a reason! ✨</button>
+
+        <div class="decision-box">
+            <p style="font-size: 0.7rem; letter-spacing: 2px; opacity: 0.6; margin-bottom: 15px;">WILL YOU BE MY VALENTINE?</p>
+            <button class="btn-yes" onclick="celebrate()">YES!</button>
+            <button class="btn-no" id="no-btn" onmouseover="dodge()">No</button>
         </div>
     </div>
 
     <script>
-        const reasons = [
-            "Your smile makes the whole world vanish.",
-            "The way you handle my madness with grace.",
-            "Because you are my home and my adventure.",
-            "Kshitija, you're the poetry I never knew how to write.",
-            "You're the first thought in my morning and the last at night."
-        ];
-        let rIdx = 0;
-
-        function startApp() {
-            document.getElementById('overlay').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('overlay').style.display = 'none';
-                document.getElementById('mainCard').style.display = 'block';
-                document.getElementById('loveAudio').play();
-            }, 1000);
-            initPetals();
+        function openCurtain() {
+            document.getElementById('curtain').style.transform = 'translateY(-100%)';
+            document.getElementById('music').play();
         }
+
+        const reasons = [
+            "Your smile lights up my darkest days.",
+            "You are my best friend and my soulmate.",
+            "The way you care for us is unparalleled.",
+            "I love the person I am when I am with you.",
+            "Simply because you are Kshitija."
+        ];
+        let idx = 0;
 
         function nextReason() {
-            const rd = document.getElementById('reason-display');
-            rd.style.opacity = '0';
-            rd.style.transform = 'translateY(-20px)';
+            const rt = document.getElementById('reason-text');
+            rt.style.opacity = 0;
             setTimeout(() => {
-                rd.innerText = reasons[rIdx];
-                rIdx = (rIdx + 1) % reasons.length;
-                rd.style.opacity = '1';
-                rd.style.transform = 'translateY(0)';
-            }, 500);
+                idx = (idx + 1) % reasons.length;
+                rt.innerText = `"${reasons[idx]}"`;
+                rt.style.opacity = 1;
+            }, 300);
             
-            confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 }, colors: ['#d4af37', '#ff4d6d'] });
+            confetti({
+                particleCount: 20,
+                spread: 40,
+                origin: { y: 0.8 },
+                colors: ['#d4af37', '#ffb6c1']
+            });
         }
 
-        function dodgeNo() {
+        function dodge() {
             const btn = document.getElementById('no-btn');
-            const phrases = ["Try again!", "Nope!", "Wrong way!", "Error 404", "Not an option!"];
-            btn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
             btn.style.position = 'fixed';
-            btn.style.left = Math.random() * 80 + '%';
-            btn.style.top = Math.random() * 80 + '%';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            btn.innerText = "Error!";
         }
 
-        function accepted() {
-            const duration = 15 * 1000;
+        function celebrate() {
+            const duration = 10 * 1000;
             const animationEnd = Date.now() + duration;
-            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            const colors = ['#ff4d6d', '#d4af37', '#ffffff'];
 
-            const interval = setInterval(function() {
-                const timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-                const particleCount = 50 * (timeLeft / duration);
-                confetti({...defaults, particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 }, colors: ['#ff4d6d', '#fff', '#d4af37']});
-            }, 250);
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
 
-            document.getElementById('reason-display').innerHTML = "<h2 style='color:var(--gold)'>I KNEW IT! ❤️</h2><p>You're the best, Kshitija!</p>";
-            document.getElementById('no-btn').style.display = 'none';
-        }
-
-        // Falling Petals Logic
-        function initPetals() {
-            const canvas = document.getElementById('petal-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            let petals = [];
-
-            class Petal {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = -20;
-                    this.s = Math.random() * 10 + 5;
-                    this.v = Math.random() * 2 + 1;
-                    this.a = Math.random() * 360;
+                if (Date.now() < animationEnd) {
+                    requestAnimationFrame(frame);
                 }
-                update() {
-                    this.y += this.v; this.a += 1;
-                    if(this.y > canvas.height) this.y = -20;
-                }
-                draw() {
-                    ctx.save();
-                    ctx.translate(this.x, this.y);
-                    ctx.rotate(this.a * Math.PI / 180);
-                    ctx.fillStyle = "rgba(255, 77, 109, 0.4)";
-                    ctx.beginPath();
-                    ctx.ellipse(0, 0, this.s, this.s/2, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                }
-            }
-            for(let i=0; i<40; i++) petals.push(new Petal());
-            function loop() {
-                ctx.clearRect(0,0,canvas.width, canvas.height);
-                petals.forEach(p => { p.update(); p.draw(); });
-                requestAnimationFrame(loop);
-            }
-            loop();
+            }());
+            
+            document.getElementById('reason-text').innerHTML = "<h2 style='color:#ff4d6d'>I LOVE YOU! ❤️</h2>";
         }
     </script>
 </body>
