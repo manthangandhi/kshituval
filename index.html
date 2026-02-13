@@ -29,9 +29,9 @@
             z-index: 1000; display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+            cursor: pointer;
         }
 
-        /* Floating Bokeh Background */
         .bg-glow {
             position: absolute; width: 100%; height: 100%;
             background: 
@@ -47,10 +47,9 @@
             perspective: 1000px;
         }
 
-        /* Portrait Frame - Optimized for 2738 × 3651 */
         .portrait-frame {
             position: relative;
-            width: 280px; /* Scaled down for mobile/web but keeps aspect ratio */
+            width: 280px;
             height: 373px; 
             border: 2px solid var(--gold);
             padding: 10px;
@@ -63,7 +62,7 @@
 
         .portrait-frame img {
             width: 100%; height: 100%;
-            object-fit: cover; /* Centers her perfectly */
+            object-fit: cover;
             border-radius: 8px;
             filter: sepia(20%) contrast(1.1);
         }
@@ -111,7 +110,6 @@
             box-shadow: 0 0 20px var(--gold);
         }
 
-        /* The Funny Interactive Section */
         .decision-box {
             margin-top: 40px;
             text-align: center;
@@ -145,8 +143,11 @@
 
     <div class="bg-glow"></div>
 
-    <audio id="music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+    <audio id="music1" loop>
+        <source src="music1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="music2" loop>
+        <source src="music2.mp3" type="audio/mpeg">
     </audio>
 
     <div class="main-container">
@@ -170,7 +171,11 @@
     <script>
         function openCurtain() {
             document.getElementById('curtain').style.transform = 'translateY(-100%)';
-            document.getElementById('music').play();
+            const m1 = document.getElementById('music1');
+            
+            // Start Song 1 at 10 seconds (adjust as needed)
+            m1.currentTime = 45; 
+            m1.play().catch(e => console.log("Playback error"));
         }
 
         const reasons = [
@@ -201,15 +206,24 @@
 
         function dodge() {
             const btn = document.getElementById('no-btn');
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
             btn.style.position = 'fixed';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
+            btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
             btn.innerText = "Error!";
         }
 
         function celebrate() {
+            // STOP Song 1, START Song 2
+            const m1 = document.getElementById('music1');
+            const m2 = document.getElementById('music2');
+            
+            m1.pause();
+            
+            // Start Song 2 at 45 seconds (adjust to your favorite part)
+            m2.currentTime = 70; 
+            m2.play().catch(e => console.log("Playback error"));
+
+            // Confetti Logic
             const duration = 10 * 1000;
             const animationEnd = Date.now() + duration;
             const colors = ['#ff4d6d', '#d4af37', '#ffffff'];
@@ -235,7 +249,7 @@
                 }
             }());
             
-            document.getElementById('reason-text').innerHTML = "<h2 style='color:#ff4d6d'>I LOVE YOU! ❤️</h2>";
+            document.getElementById('reason-text').innerHTML = "<h2 style='color:#ff4d6d'>I LOVE YOU FOREVER! ❤️</h2>";
         }
     </script>
 </body>
